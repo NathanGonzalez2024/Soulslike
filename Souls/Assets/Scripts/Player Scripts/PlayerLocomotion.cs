@@ -35,7 +35,7 @@ namespace SL {
 
         }
 
-        public void Update() {
+        public void FixedUpdate() {
             float delta = Time.deltaTime;
 
             // Process input
@@ -45,6 +45,7 @@ namespace SL {
             moveDirection = cameraObject.forward * inputHandler.vertical;
             moveDirection += cameraObject.right * inputHandler.horizontal;
             moveDirection.Normalize();
+            moveDirection.y = 0;
 
             // Apply movement speed to move direction
             float speed = movementSpeed;

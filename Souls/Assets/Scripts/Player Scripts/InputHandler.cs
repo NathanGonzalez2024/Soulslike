@@ -14,10 +14,24 @@ namespace SL {
 
         // Input actions object to handle player input
         PlayerControls inputActions;
+        CameraHandler cameraHandler;
 
         // Input vectors for movement and camera
         Vector2 movementInput;
         Vector2 cameraInput;
+
+        private void Awake() {
+            cameraHandler = CameraHandler.singleton;
+        }
+
+        private void FixedUpdate() {
+            float delta = Time.fixedDeltaTime;
+
+            if (cameraHandler != null) {
+                cameraHandler.FollowTarget(delta);
+                cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
+            }
+        }
 
         // Method called when the component is enabled
         public void OnEnable() {
