@@ -14,6 +14,8 @@ namespace SL {
 
         public bool b_Input;
         public bool rollFlag;
+        public bool sprintFlag;
+        public float rollInputTimer;
         public bool isInteracting;
 
         // Input actions object to handle player input
@@ -82,10 +84,19 @@ namespace SL {
         }
 
         private void HandleRollInput(float delta) {
-            b_Input = inputActions.PlayerActions.Roll.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+            b_Input = inputActions.PlayerActions.Roll.IsPressed();
 
             if (b_Input) {
-                rollFlag = true;
+                rollInputTimer += delta;
+                sprintFlag = true;
+                
+            } else {
+                if (rollInputTimer > 0 && rollInputTimer < 0.5f) {
+                    sprintFlag = false;
+                    rollFlag = true;
+                }
+
+                rollInputTimer = 0;
             }
         }
     }

@@ -156,7 +156,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""858cef1f-c984-488b-adba-134460e432db"",
                     ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": ""SlowTap"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Roll"",
