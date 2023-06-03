@@ -21,7 +21,11 @@ namespace SL {
         [SerializeField]
         float movementSpeed = 5;
         [SerializeField]
+        float sprintSpeed = 7;
+        [SerializeField]
         float rotationSpeed = 10;
+
+        public bool isSprinting;
 
         void Start()
         {
@@ -39,6 +43,7 @@ namespace SL {
             float delta = Time.deltaTime;
 
             // Process input
+            isSprinting = inputHandler.b_Input;
             inputHandler.TickInput(delta);
             HandleMovement(delta);
             HandleRollingAndSprinting(delta);
@@ -84,7 +89,13 @@ namespace SL {
 
             // Apply movement speed to move direction
             float speed = movementSpeed;
-            moveDirection *= speed;
+            if (inputHandler.sprintFlag) {
+                speed = sprintSpeed;
+                isSprinting = true;
+                moveDirection *= speed;
+            } else {
+                moveDirection *= speed;
+            }
 
             // Project the move direction onto the plane defined by normalVector
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
@@ -92,7 +103,7 @@ namespace SL {
             // Set the rigidbody's velocity to the projected velocity
             rigidbody.velocity = projectedVelocity;
 
-            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0);
+            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, isSprinting);
 
             if (animatorHandler.canRotate) {
                 HandleRotation(delta);
