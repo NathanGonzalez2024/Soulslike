@@ -40,28 +40,9 @@ namespace SL {
 
             // Process input
             inputHandler.TickInput(delta);
+            HandleMovement(delta);
+            HandleRollingAndSprinting(delta);
 
-            // Calculate move direction based on camera and input
-            moveDirection = cameraObject.forward * inputHandler.vertical;
-            moveDirection += cameraObject.right * inputHandler.horizontal;
-            moveDirection.Normalize();
-            moveDirection.y = 0;
-
-            // Apply movement speed to move direction
-            float speed = movementSpeed;
-            moveDirection *= speed;
-
-            // Project the move direction onto the plane defined by normalVector
-            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
-
-            // Set the rigidbody's velocity to the projected velocity
-            rigidbody.velocity = projectedVelocity;
-
-            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0);
-
-            if (animatorHandler.canRotate) {
-                HandleRotation(delta);
-            }
         }
 
         #region Movement
@@ -89,6 +70,52 @@ namespace SL {
             Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
 
             myTransform.rotation = targetRotation;
+        }
+
+        public void HandleMovement(float delta) {
+            if (animatorHandler.anim.GetBool("isInteracting"))
+                return;
+                
+            // Calculate move direction based on camera and input
+            moveDirection = cameraObject.forward * inputHandler.vertical;
+            moveDirection += cameraObject.right * inputHandler.horizontal;
+            moveDirection.Normalize();
+            moveDirection.y = 0;
+
+            // Apply movement speed to move direction
+            float speed = movementSpeed;
+            moveDirection *= speed;
+
+            // Project the move direction onto the plane defined by normalVector
+            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+
+            // Set the rigidbody's velocity to the projected velocity
+            rigidbody.velocity = projectedVelocity;
+
+            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0);
+
+            if (animatorHandler.canRotate) {
+                HandleRotation(delta);
+            }
+        }
+
+        public void HandleRollingAndSprinting(float delta) {
+            if (animatorHandler.anim.GetBool("isInteracting")) { // Don't want to roll if interacting with something
+                return;
+            }
+            if (inputHandler.rollFlag) {
+                moveDirection = cameraObject.forward * inputHandler.vertical;
+                moveDirection += cameraObject.right * inputHandler.horizontal;
+
+                if (inputHandler.moveAmount > 0) {
+                    animatorHandler.PlayTargetAnimation("Rolling", true);
+                    moveDirection.y = 0;
+                    Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
+                    myTransform.rotation = rollRotation;
+                } else {
+                    animatorHandler.PlayTargetAnimation("Backstep", true);
+                }
+            }
         }
 
         #endregion
