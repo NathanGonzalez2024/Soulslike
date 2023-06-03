@@ -145,7 +145,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""0fed2a2e-5960-46be-a8f9-197e0aef0926"",
                     ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": ""SlowTap"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Roll"",
