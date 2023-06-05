@@ -5,6 +5,7 @@ using UnityEngine;
 namespace SL {
     public class PlayerLocomotion : MonoBehaviour
     {
+        PlayerManager playerManager;
         Transform cameraObject;
         InputHandler inputHandler;
         Vector3 moveDirection;
@@ -17,7 +18,7 @@ namespace SL {
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
 
-        [Header("Stats")]
+        [Header("Movement Stats")]
         [SerializeField]
         float movementSpeed = 5;
         [SerializeField]
@@ -25,28 +26,16 @@ namespace SL {
         [SerializeField]
         float rotationSpeed = 10;
 
-        public bool isSprinting;
-
         void Start()
         {
             // Get the necessary components and references
+            playerManager = GetComponent<PlayerManager>();
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             cameraObject = Camera.main.transform;
             myTransform = transform;
             animatorHandler.Initialize();
-
-        }
-
-        public void FixedUpdate() {
-            float delta = Time.deltaTime;
-
-            // Process input
-            isSprinting = inputHandler.b_Input;
-            inputHandler.TickInput(delta);
-            HandleMovement(delta);
-            HandleRollingAndSprinting(delta);
 
         }
 
@@ -91,7 +80,7 @@ namespace SL {
             float speed = movementSpeed;
             if (inputHandler.sprintFlag) {
                 speed = sprintSpeed;
-                isSprinting = true;
+                playerManager.isSprinting = true;
                 moveDirection *= speed;
             } else {
                 moveDirection *= speed;
@@ -103,7 +92,7 @@ namespace SL {
             // Set the rigidbody's velocity to the projected velocity
             rigidbody.velocity = projectedVelocity;
 
-            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, isSprinting);
+            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
 
             if (animatorHandler.canRotate) {
                 HandleRotation(delta);
