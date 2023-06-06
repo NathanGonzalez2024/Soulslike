@@ -67,7 +67,7 @@ namespace SL {
         public void PlayTargetAnimation(string targetAnim, bool isInteracting) {
             anim.applyRootMotion = isInteracting;
             anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.1f);
+            anim.CrossFade(targetAnim, 0.2f);
         }
 
         public void CanRotate() {
@@ -88,6 +88,12 @@ namespace SL {
             deltaPosition.y = 0;
             Vector3 velocity = deltaPosition / delta;
             playerLocomotion.rigidbody.velocity = velocity;
+        }
+
+        public void TransitionToFallingAnimation() {
+            if (playerManager.isInAir && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && !anim.GetCurrentAnimatorStateInfo(0).IsName("Falling")) {
+                PlayTargetAnimation("Falling", true);
+            }
         }
     }
 }

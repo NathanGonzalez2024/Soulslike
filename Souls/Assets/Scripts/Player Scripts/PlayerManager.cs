@@ -9,10 +9,13 @@ public class PlayerManager : MonoBehaviour
         Animator anim;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
+        AnimatorHandler animatorHandler;
 
         [Header("Player Flags")]
         public bool isInteracting;
         public bool isSprinting;
+        public bool isInAir;
+        public bool isGrounded;
 
 
         private void Awake() {
@@ -24,6 +27,7 @@ public class PlayerManager : MonoBehaviour
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
+            animatorHandler = GetComponentInChildren<AnimatorHandler>();
         }
 
         void Update()
@@ -36,6 +40,8 @@ public class PlayerManager : MonoBehaviour
             inputHandler.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
+            playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
+            animatorHandler.TransitionToFallingAnimation();
         }
 
         private void FixedUpdate() {
@@ -53,6 +59,9 @@ public class PlayerManager : MonoBehaviour
             inputHandler.rollFlag = false;
             inputHandler.sprintFlag = false;
             isSprinting = inputHandler.b_Input;
+            if (isInAir) {
+                playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
+            }
 
         }
     }
