@@ -13,17 +13,27 @@ namespace SL {
         public float mouseY;
 
         public bool b_Input;
+        public bool rb_Input;
+        public bool rt_Input;
+
         public bool rollFlag;
         public bool sprintFlag;
         public float rollInputTimer;
 
         // Input actions object to handle player input
         PlayerControls inputActions;
+        PlayerAttacker playerAttacker;
+        PlayerInventory playerInventory;
         CameraHandler cameraHandler;
 
         // Input vectors for movement and camera
         Vector2 movementInput;
         Vector2 cameraInput;
+
+        private void Awake() {
+            playerAttacker = GetComponent<PlayerAttacker>();
+            playerInventory = GetComponent<PlayerInventory>();
+        }
 
         // Method called when the component is enabled
         public void OnEnable() {
@@ -53,6 +63,7 @@ namespace SL {
             // Call MoveInput method to handle movement input
             MoveInput(delta);
             HandleRollInput(delta);
+            HandleAttackInput(delta);
         }
 
         // Method to handle movement input
@@ -83,6 +94,19 @@ namespace SL {
                 }
 
                 rollInputTimer = 0;
+            }
+        }
+    
+        private void HandleAttackInput(float delta) {
+            inputActions.PlayerActions.RB.performed += i => rb_Input = true;
+            inputActions.PlayerActions.RT.performed += i => rt_Input = true;
+
+            // r handles right hand weapon
+            if (rb_Input) {
+                playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+            }
+            if (rt_Input) {
+                playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
             }
         }
     }

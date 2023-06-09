@@ -37,6 +37,8 @@ namespace SL {
         float rotationSpeed = 10;
         [SerializeField]
         float fallingSpeed = 45;
+        [SerializeField]
+        float walkingSpeed = 3;
 
         void Start()
         {
@@ -93,12 +95,18 @@ namespace SL {
 
             // Apply movement speed to move direction
             float speed = movementSpeed;
-            if (inputHandler.sprintFlag) {
+            if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5f) {
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
                 moveDirection *= speed;
             } else {
-                moveDirection *= speed;
+                if (inputHandler.moveAmount < 0.5) {
+                    moveDirection *= walkingSpeed;
+                    playerManager.isSprinting = false;
+                } else {
+                    moveDirection *= speed;
+                    playerManager.isSprinting = false;
+                }
             }
 
             // Project the move direction onto the plane defined by normalVector
