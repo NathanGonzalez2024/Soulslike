@@ -179,7 +179,7 @@ namespace SL {
                         animatorHandler.PlayTargetAnimation("Land", true);
                         inAirTimer = 0;
                     } else {
-                        animatorHandler.PlayTargetAnimation("Land", false);
+                        animatorHandler.PlayTargetAnimation("Empty", false);
                         inAirTimer = 0;
                     }
 

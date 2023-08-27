@@ -131,10 +131,54 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 947413340553308395, guid: d3bc15e0da8f1e142aaf8c26f06c3f9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9117551632261306614}
+    - targetCorrespondingSourceObject: {fileID: 947413340553308395, guid: d3bc15e0da8f1e142aaf8c26f06c3f9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5522191226325333028}
   m_SourcePrefab: {fileID: 100100000, guid: d3bc15e0da8f1e142aaf8c26f06c3f9b, type: 3}
 --- !u!4 &3516977216167587081 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 463364734907134545, guid: d3bc15e0da8f1e142aaf8c26f06c3f9b, type: 3}
   m_PrefabInstance: {fileID: 3936396632200486744}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4288834806109697971 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 947413340553308395, guid: d3bc15e0da8f1e142aaf8c26f06c3f9b, type: 3}
+  m_PrefabInstance: {fileID: 3936396632200486744}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &9117551632261306614
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4288834806109697971}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.14581057, y: 0.053175285, z: 0.7513859}
+  m_Center: {x: 0.000000007376435, y: -0.000025665648, z: 0.03020142}
+--- !u!114 &5522191226325333028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4288834806109697971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674d567ee1c31d346bf917b36daeb5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
